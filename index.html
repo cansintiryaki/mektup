@@ -13,25 +13,27 @@
   --env-dark: #e6d7b8;
   --seal-color: #a31d1d;
   --gold: #ffd700;
+  --sparkle-color: #fff7d1;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop') center/cover no-repeat;
-  overflow:hidden;
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop') center center / cover no-repeat;
+  background-attachment: scroll;
+  overflow: hidden;
   font-family: 'Dancing Script', cursive;
 }
 
-/* ARKA PLAN */
 .overlay {
   position:fixed;
   inset:0;
-  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
   backdrop-filter: blur(8px);
   z-index:1;
   transition: all 1.2s ease;
@@ -78,7 +80,6 @@ body {
   z-index: 5;
 }
 
-/* MÜHÜR */
 .seal {
   position: absolute;
   top: 43%;
@@ -89,7 +90,7 @@ body {
   border-radius: 48% 52% 50% 50% / 51% 48% 52% 49%;
   transform: translateX(-50%) rotate(-5deg);
   z-index: 6;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +98,6 @@ body {
 }
 .seal::after { content: '❤'; color: rgba(241, 196, 15, 0.8); font-size: 22px; }
 
-/* KAĞIT ÖNİZLEME */
 .paper-preview {
   position: absolute;
   bottom: 10px;
@@ -112,12 +112,21 @@ body {
   justify-content: center;
   align-items: center;
 }
-.paper-preview span { font-family: 'Satisfy', cursive; color: #777; animation: glowText 2s infinite; }
+.paper-preview span { font-family: 'Satisfy', cursive; color: #888; animation: glowText 2s infinite; }
 
-@keyframes glowText { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+@keyframes glowText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* PARILTI */
-.sparkle { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 20; box-shadow: 0 0 10px var(--gold); }
+/* --- IŞILTI (SPARKLE) EFEKTİ CSS --- */
+.sparkle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 0 15px var(--gold), 0 0 20px var(--sparkle-color);
+}
 
 /* MEKTUP MODAL */
 .letter-modal {
@@ -155,50 +164,46 @@ body {
   box-shadow: 0 20px 70px rgba(0,0,0,0.7);
   overflow: hidden;
 }
-.card .side::before { content: ''; position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/cream-paper.png'); opacity: 0.4; }
+.card .side::after { content: ''; position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/cream-paper.png'); opacity: 0.4; pointer-events: none; }
 .card .back { transform: rotateY(180deg); }
-.card img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; position: relative; z-index: 2; }
+.card img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; }
 
-/* KAPATMA BUTONU */
 .close-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   width: 40px;
   height: 40px;
   background: rgba(255,255,255,0.2);
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 50%;
   color: white;
-  font-size: 24px;
+  font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 20;
+  z-index: 30;
   backdrop-filter: blur(10px);
-  transition: all 0.3s;
 }
-.close-btn:hover { background: rgba(255,255,255,0.4); transform: rotate(90deg); }
 
 .flip-hint {
-  margin-top: 25px;
+  margin-top: 20px;
   color: white;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(5px);
-  padding: 10px 20px;
-  border-radius: 30px;
+  background: rgba(0,0,0,0.4);
+  padding: 8px 16px;
+  border-radius: 20px;
   opacity: 0;
-  transition: all 0.5s ease 1.2s;
+  transition: opacity 0.5s 1.2s;
 }
 .letter-modal.show .flip-hint { opacity: 1; }
 .flip-hint.hide { opacity: 0 !important; }
 
 /* DURUMLAR */
 .scene.open .flap { transform: rotateX(-160deg); z-index: 1; }
-.scene.open .seal { opacity: 0; pointer-events: none; }
-.scene.open .paper-preview { transform: translateY(-150px); }
-.scene.fade-out { opacity: 0; transform: scale(0.8) translateY(-100px); pointer-events: none; }
+.scene.open .seal { opacity: 0; }
+.scene.open .paper-preview { transform: translateY(-150px); z-index: 10; }
+.scene.fade-out { opacity: 0; transform: scale(0.8) translateY(-100px); }
 </style>
 </head>
 <body>
@@ -226,9 +231,7 @@ body {
       <img src="mektup-arka.png" alt="Arka Yüz">
     </div>
   </div>
-  <div class="flip-hint" id="hint">
-    <span>🔄</span> Çevirmek için tıkla
-  </div>
+  <div class="flip-hint" id="hint">🔄 Çevirmek için tıkla</div>
 </div>
 
 <audio id="whoosh" src="whoosh.mp3"></audio>
@@ -245,41 +248,42 @@ const sound = document.getElementById("whoosh");
 
 let step = 0;
 
+/* --- IŞILTI (SPARKLE) FONKSİYONU --- */
 function createSparkles() {
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 45; i++) { // Sayıyı 45'e çıkardım (Daha yoğun)
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     document.body.appendChild(sparkle);
+
     const startX = window.innerWidth / 2;
     const startY = window.innerHeight / 2;
-    const destinationX = (Math.random() - 0.5) * 800;
-    const destinationY = (Math.random() - 0.5) * 800;
-    const animation = sparkle.animate([
-      { transform: `translate(${startX}px, ${startY}px) scale(0)`, opacity: 1 },
-      { transform: `translate(${startX + destinationX}px, ${startY + destinationY}px) scale(1)`, opacity: 0 }
-    ], { duration: 1000 + Math.random() * 1000, easing: 'cubic-bezier(0, .9, .57, 1)' });
-    animation.onfinish = () => sparkle.remove();
+
+    // Patlama efekti mesafesi
+    const destinationX = (Math.random() - 0.5) * (window.innerWidth > 600 ? 1000 : 600);
+    const destinationY = (Math.random() - 0.5) * (window.innerHeight > 600 ? 1000 : 600);
+
+    sparkle.animate([
+      { transform: `translate(${startX}px, ${startY}px) scale(0) rotate(0deg)`, opacity: 1 },
+      { transform: `translate(${startX + destinationX}px, ${startY + destinationY}px) scale(${Math.random() * 1.5}) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+    ], {
+      duration: 1500 + Math.random() * 1000, // Daha yavaş süzülme
+      easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)',
+      delay: Math.random() * 300
+    }).onfinish = () => sparkle.remove();
   }
 }
 
-// ZARFI AÇMA (FLAP)
-scene.onclick = () => {
-  if(step === 0){
-    scene.classList.add("open");
-    step = 1;
-  }
-};
+scene.onclick = () => { if(step === 0){ scene.classList.add("open"); step = 1; } };
 
-// MEKTUBU ÇIKARMA
 paper.onclick = (e) => {
   e.stopPropagation();
   if(step === 1){
     scene.classList.add("fade-out");
-    createSparkles();
+    createSparkles(); // Işıltılar burada tetikleniyor!
     setTimeout(() => {
       modal.classList.add("show");
-      overlay.style.background = "radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.95) 100%)";
       overlay.style.backdropFilter = "blur(20px)";
+      overlay.style.background = "rgba(0,0,0,0.85)";
     }, 400);
     sound.currentTime = 0;
     sound.play();
@@ -287,28 +291,20 @@ paper.onclick = (e) => {
   }
 };
 
-// KARTI ÇEVİRME
 card.onclick = () => {
   if(step === 2){
     hint.classList.add("hide");
-    const currentTransform = card.style.transform;
-    card.style.transform = (currentTransform === "rotateY(180deg)") ? "rotateY(0deg)" : "rotateY(180deg)";
+    card.style.transform = (card.style.transform === "rotateY(180deg)") ? "rotateY(0deg)" : "rotateY(180deg)";
     sound.currentTime = 0;
     sound.play();
   }
 };
 
-// MEKTUBU KAPATIP BAŞA SARMA
 closeBtn.onclick = () => {
-  // Modal'ı gizle
   modal.classList.remove("show");
-
-  // Arka planı eski haline getir
-  overlay.style.background = "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)";
   overlay.style.backdropFilter = "blur(8px)";
-
+  overlay.style.background = "rgba(0,0,0,0.4)";
   setTimeout(() => {
-    // Zarfı ve tüm aşamaları sıfırla
     scene.classList.remove("fade-out", "open");
     card.style.transform = "rotateY(0deg)";
     hint.classList.remove("hide");
